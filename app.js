@@ -10,6 +10,9 @@ app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
 });
 
+//Modelo de pelicula
+const PeliculaModel = require('./models/pelicula')
+
 // Conexión a Base de datos
 const mongoose = require('mongoose');
 const uri = "mongodb+srv://peliculas:peliculas@clusterpeliculas.jvfynvf.mongodb.net/peliculasDB?retryWrites=true&w=majority";
@@ -21,16 +24,7 @@ mongoose.connect(uri, {
 	.then(() => console.log('Base de datos conectada'))
 	.catch(e => console.log(e))
 
-//Objeto película
-const peliculaSchema = mongoose.Schema({
-	name: String,
-	year: Number,
-	directors: [String],
-	cast: [String],
-	genres: [String]
-}, {versionKey: false})
 
-const PeliculaModel = mongoose.model('peliculas', peliculaSchema)
 
 //Find
 const find = async() => {
