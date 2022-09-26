@@ -31,7 +31,7 @@ app.get("/findById/:id", async (req, res) => {
 	res.send(peliculas);
 });
 
-app.post("/add", async (req, res) => {
+app.get("/add", async (req, res) => {
 	const pelicula = new PeliculaModel({
 		name: "Shrek 2",
 		year: 2003,
@@ -39,10 +39,12 @@ app.post("/add", async (req, res) => {
 		cast: ["Mike Myers", "Eddie Murphy", "Chris Miller", "Conrad Vernon"],
 		genres: ["Comedy", "Fantasy", "Animated"]
 	})
-	await pelicula.save()
+	
+	res.send(pelicula)
+	
 });
 
-app.put("/updateById/:id", async (req, res) => {
+app.get("/updateById/:id", async (req, res) => {
 	let peliculaId = req.params.id;
 	await PeliculaModel.updateOne({_id: peliculaId},
 		{
@@ -53,9 +55,15 @@ app.put("/updateById/:id", async (req, res) => {
 		})
 });
 
-app.put("/deleteById/:id", async (req, res) => {
-	let peliculaId = req.id;
-	await PeliculaModel.deleteOne({_id: peliculaId})
+app.get("/hola/:id", async (req, res) => {
+	let peliculaId = req.params.id;
+	const pelicula = await PeliculaModel.findByIdAndRemove(peliculaId)
+	console.log(pelicula);
+	if(!pelicula){
+        res.send('La película no fue encontrada')
+    } else{
+        res.send('La película fue eliminada')
+    }
 });
 
 app.listen(port, () => {
